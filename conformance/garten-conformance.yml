@@ -1,0 +1,88 @@
+generated: '2026-08-04'
+method: derived
+source: well-known/garten-tv-oauth-authorization-server.json, well-known/garten-tv-oauth-protected-resource.json,
+  live probes
+scope_note: 'Every assertion below is derived from documents observed live on garten''s
+  own hosts. garten makes no published conformance or compliance claims of its own —
+  there is no trust center, no certification page and no standards statement — so no
+  Compliance pointer is wired from this file.'
+standards:
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: 'https://tv.garten.co/.well-known/oauth-authorization-server returns HTTP
+    200 application/json with issuer, authorization_endpoint, token_endpoint, response_types_supported
+    and the other required members.'
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  evidence: 'https://tv.garten.co/.well-known/oauth-protected-resource returns HTTP
+    200 with resource, authorization_servers, scopes_supported and bearer_methods_supported;
+    the 401 from /mcp carries a WWW-Authenticate header whose resource_metadata parameter
+    points back at it.'
+- id: oauth2
+  conforms: true
+  evidence: authorization_code and refresh_token grants advertised with authorize/token/revoke/introspect
+    endpoints.
+- id: oauth21
+  conforms: true
+  evidence: 'Only the authorization_code and refresh_token grants are advertised (no
+    implicit, no resource-owner password), and code_challenge_methods_supported is
+    [S256] — the OAuth 2.1 shape.'
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported = [S256]
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint = https://tv.garten.co/oauth/register
+- id: rfc7009-token-revocation
+  conforms: true
+  evidence: revocation_endpoint = https://tv.garten.co/oauth/revoke
+- id: rfc7662-token-introspection
+  conforms: true
+  evidence: introspection_endpoint = https://tv.garten.co/oauth/introspect
+- id: rfc8707-resource-indicators
+  conforms: true
+  evidence: resource_indicators_supported = true
+- id: mcp-authorization
+  conforms: true
+  evidence: 'https://tv.garten.co/mcp implements the MCP authorization profile — an
+    anonymous tools/list returns 401 with a Bearer challenge naming realm="mcp" and
+    the protected-resource metadata URL, which is the discovery handshake the MCP spec
+    prescribes.'
+- id: model-context-protocol
+  conforms: true
+  partial: true
+  evidence: 'JSON-RPC 2.0 endpoint present and correctly gated, but the tool surface
+    could not be verified because tools/list requires an access token.'
+- id: openid-connect-discovery
+  conforms: false
+  evidence: /.well-known/openid-configuration returns HTTP 404 on every host probed.
+- id: openapi
+  conforms: false
+  evidence: 'No OpenAPI or Swagger document was found on any host. garten.co/openapi.json
+    404s into the WordPress theme; api.garten.co and client.garten.co return HTTP 500
+    JSON errors for /openapi.json, /openapi.yaml and /swagger.json; /api-docs, /docs
+    and /redoc return the storefront HTML shell.'
+- id: asyncapi
+  conforms: false
+  evidence: No AsyncAPI document, event catalog or webhook reference is published.
+- id: a2a-agent-card
+  conforms: false
+  evidence: '/.well-known/agent-card.json and /.well-known/agent.json return 404 (or
+    406 on tv.garten.co) on every reachable host. The HTTP 200 HTML responses on admin.garten.co
+    are a single-page-app catch-all and were rejected.'
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: No /.well-known/security.txt on any host.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: 'Observed error bodies are ad-hoc JSON — {"error":"You must specify an
+    API key."} on the commerce API and {"error":"invalid_request","error_description":"Missing
+    access token"} on the MCP endpoint (the latter being the OAuth error shape, not
+    problem+json). No application/problem+json was seen.'
+- id: llms-txt
+  conforms: false
+  evidence: 'garten.co/llms.txt returns 404. shop.garten.co/llms.txt returns 200 but
+    is Shopify''s "Store Unavailable" boilerplate on a decommissioned storefront.'
+x-evidence:
+  fetched: '2026-08-04'
+  tools: [curl]

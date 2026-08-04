@@ -1,0 +1,75 @@
+generated: '2026-08-04'
+method: probed
+source: https://tv.garten.co/.well-known/oauth-authorization-server
+note: 'Derived from live OAuth discovery metadata rather than from an OpenAPI document
+  — garten publishes no machine-readable REST contract. Two distinct authentication
+  surfaces exist in the estate and both are recorded: the OAuth 2.1 surface on garten
+  TV (fully documented by its own metadata) and the opaque API-key surface on the Spree/Solidus
+  client application (observed only through its 401 body; garten publishes no documentation
+  for it, so nothing beyond the observed behaviour is asserted).'
+summary:
+  types: [oauth2, apiKey]
+  oauth2_flows: [authorizationCode, refreshToken]
+  pkce: [S256]
+  dynamic_client_registration: true
+  api_key_in: [unspecified]
+schemes:
+- name: garten TV OAuth 2.1
+  type: oauth2
+  applies_to: https://tv.garten.co/mcp
+  issuer: https://tv.garten.co
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://tv.garten.co/oauth/authorize
+    tokenUrl: https://tv.garten.co/oauth/token
+    scope_count: 7
+  - flow: refreshToken
+    tokenUrl: https://tv.garten.co/oauth/token
+  endpoints:
+    authorization: https://tv.garten.co/oauth/authorize
+    token: https://tv.garten.co/oauth/token
+    revocation: https://tv.garten.co/oauth/revoke
+    introspection: https://tv.garten.co/oauth/introspect
+    registration: https://tv.garten.co/oauth/register
+  response_types_supported: [code]
+  grant_types_supported: [authorization_code, refresh_token]
+  code_challenge_methods_supported: [S256]
+  token_endpoint_auth_methods_supported: [client_secret_basic, client_secret_post, none]
+  resource_indicators_supported: true
+  bearer_methods_supported: [header]
+  sources: [well-known/garten-tv-oauth-authorization-server.json, well-known/garten-tv-oauth-protected-resource.json]
+- name: garten client commerce API key
+  type: apiKey
+  applies_to: https://api.garten.co/api/v1, https://api.garten.co/api/v2, https://client.garten.co
+  in: unspecified
+  parameter_name: unspecified
+  documented: false
+  observed_behaviour: 'Anonymous GET of /api/v1/products, /api/v2/storefront/products,
+    /api/v2/storefront/menus and /api/v2/platform/products all return HTTP 401 with
+    body {"error":"You must specify an API key."} — the Spree/Solidus default. garten
+    publishes no documentation, no key-issuance flow and no header/parameter name for
+    this credential, so the location of the key is recorded as unspecified rather than
+    guessed.'
+  sources: [live probe]
+posture:
+  strengths:
+  - RFC 8414 authorization-server metadata published and anonymous
+  - RFC 9728 protected-resource metadata published, correctly referenced from the WWW-Authenticate
+    header on a 401
+  - PKCE S256 required-capable; no implicit or password grants advertised
+  - RFC 7591 dynamic client registration endpoint advertised
+  - RFC 8707 resource indicators supported
+  - separate revocation and introspection endpoints advertised
+  gaps:
+  - no OpenID Connect discovery document (/.well-known/openid-configuration returns
+    404), so there is no id_token / userinfo contract
+  - no human-readable authentication documentation anywhere on garten's public surface
+  - the commerce API-key surface is undocumented — no key issuance, rotation or scoping
+    guidance is published
+  - the OAuth surface covers only the garten TV property, not the core kitchen/market/catering
+    business
+x-evidence:
+- {fetched: '2026-08-04', url: 'https://tv.garten.co/.well-known/oauth-authorization-server',
+   http_status: 200}
+- {fetched: '2026-08-04', url: 'https://tv.garten.co/mcp', http_status: 401, header: www-authenticate}
+- {fetched: '2026-08-04', url: 'https://api.garten.co/api/v2/storefront/products', http_status: 401}

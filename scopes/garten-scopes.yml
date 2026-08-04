@@ -1,0 +1,65 @@
+generated: '2026-08-04'
+method: probed
+source: https://tv.garten.co/.well-known/oauth-authorization-server
+also_declared_in: https://tv.garten.co/.well-known/oauth-protected-resource
+docs: null
+docs_note: garten publishes no scope reference page; the scope list below is exactly
+  what the two live discovery documents advertise, with nothing added.
+schemes:
+- name: garten TV OAuth 2.1
+  source: well-known/garten-tv-oauth-authorization-server.json
+  issuer: https://tv.garten.co
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://tv.garten.co/oauth/authorize
+    tokenUrl: https://tv.garten.co/oauth/token
+    refreshUrl: https://tv.garten.co/oauth/token
+    pkce: S256
+scopes:
+- scope: content_analytics.read
+  description: Read content analytics for the garten TV catalog (scope name as published;
+    garten publishes no description text).
+  flows: [authorizationCode]
+  access: read
+  sources: [well-known/garten-tv-oauth-authorization-server.json]
+- scope: finance_analytics.read
+  description: Read finance analytics for the garten TV property (scope name as published).
+  flows: [authorizationCode]
+  access: read
+  sources: [well-known/garten-tv-oauth-authorization-server.json]
+- scope: crm.read
+  description: Read CRM / customer records (scope name as published).
+  flows: [authorizationCode]
+  access: read
+  sources: [well-known/garten-tv-oauth-authorization-server.json]
+- scope: cms.read
+  description: Read CMS content objects (scope name as published).
+  flows: [authorizationCode]
+  access: read
+  sources: [well-known/garten-tv-oauth-authorization-server.json]
+- scope: products.read
+  description: Read products / catalog offerings (scope name as published).
+  flows: [authorizationCode]
+  access: read
+  sources: [well-known/garten-tv-oauth-authorization-server.json]
+- scope: cms.write
+  description: Create or modify CMS content objects (scope name as published).
+  flows: [authorizationCode]
+  access: write
+  sources: [well-known/garten-tv-oauth-authorization-server.json]
+- scope: crm.write
+  description: Create or modify CRM / customer records (scope name as published).
+  flows: [authorizationCode]
+  access: write
+  sources: [well-known/garten-tv-oauth-authorization-server.json]
+summary:
+  scope_count: 7
+  read_scopes: 5
+  write_scopes: 2
+  domains: [content_analytics, finance_analytics, crm, cms, products]
+  protected_resource: https://tv.garten.co/mcp
+x-evidence:
+  fetched: '2026-08-04'
+  url: https://tv.garten.co/.well-known/oauth-authorization-server
+  http_status: 200
+  content_type: application/json

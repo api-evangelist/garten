@@ -1,0 +1,58 @@
+generated: '2026-08-04'
+method: probed
+source: https://tv.garten.co/.well-known/oauth-protected-resource
+status: published
+server:
+  name: garten-tv
+  transport: http
+  url: https://tv.garten.co/mcp
+  host: tv.garten.co
+  platform: Uscreen
+  platform_note: 'garten TV runs on the Uscreen streaming platform (powered-by-uscreen
+    markup, and a frame-ancestors CSP naming uscreen.io / www.uscreen.tv / app.uscreen.tv).
+    The MCP endpoint is a platform capability, but it is served from garten''s own
+    host and its OAuth metadata names https://tv.garten.co as the issuer, so it is
+    recorded as a garten surface with the platform disclosed.'
+discovery:
+  protected_resource_metadata: https://tv.garten.co/.well-known/oauth-protected-resource
+  authorization_server_metadata: https://tv.garten.co/.well-known/oauth-authorization-server
+  files:
+  - well-known/garten-tv-oauth-protected-resource.json
+  - well-known/garten-tv-oauth-authorization-server.json
+authorization:
+  model: OAuth 2.1 (MCP authorization spec)
+  gated: true
+  issuer: https://tv.garten.co
+  bearer_methods_supported: [header]
+  www_authenticate: 'Bearer realm="mcp", error="invalid_request", error_description="Missing
+    access token", resource_metadata="https://tv.garten.co/.well-known/oauth-protected-resource"'
+  scopes_supported:
+  - content_analytics.read
+  - finance_analytics.read
+  - crm.read
+  - cms.read
+  - products.read
+  - cms.write
+  - crm.write
+  detail: authentication/garten-authentication.yml
+  scopes: scopes/garten-scopes.yml
+tools:
+  listed: false
+  reason: 'Anonymous POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} to https://tv.garten.co/mcp
+    returns HTTP 401 {"error":"invalid_request","error_description":"Missing access
+    token"} with an RFC 9728 WWW-Authenticate challenge. The live tool set and per-tool
+    inputSchema require an authenticated introspection with an access token obtained
+    through the authorization-code + PKCE flow. garten publishes no llms.txt, no MCP
+    docs and no tool reference, and the Uscreen platform publishes no public tool list,
+    so NO tool names are recorded here — deriving them would be fabrication.'
+  capability_hint_from_scopes: 'The seven advertised scopes imply the server exposes
+    content/CMS, CRM (customer), product/catalog, and content + finance analytics capabilities,
+    read for all five domains and write for cms and crm. This is the scope surface
+    only; it is not a tool list.'
+x-evidence:
+- {fetched: '2026-08-04', url: 'https://tv.garten.co/.well-known/oauth-protected-resource',
+   http_status: 200, content_type: application/json}
+- {fetched: '2026-08-04', url: 'https://tv.garten.co/.well-known/oauth-authorization-server',
+   http_status: 200, content_type: application/json}
+- {fetched: '2026-08-04', url: 'https://tv.garten.co/mcp', method: 'POST tools/list',
+   http_status: 401, content_type: application/json}

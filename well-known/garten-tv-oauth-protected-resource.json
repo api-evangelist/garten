@@ -1,0 +1,1 @@
+{"resource":"https://tv.garten.co/mcp","authorization_servers":["https://tv.garten.co"],"scopes_supported":["content_analytics.read","finance_analytics.read","crm.read","cms.read","products.read","cms.write","crm.write"],"bearer_methods_supported":["header"]}

@@ -1,0 +1,136 @@
+generated: '2026-08-04'
+method: probed
+source: live GET of /.well-known/* on every garten.co host discovered via DNS and certificate
+  transparency (crt.sh)
+summary:
+  hosts_probed: 9
+  hosts_unreachable: 6
+  documents_found: 2
+  note: 'Two real discovery documents exist across the whole garten estate, and both
+    are on tv.garten.co (garten TV, the Uscreen-powered wellness-video property): RFC
+    8414 OAuth 2.0 authorization-server metadata and RFC 9728 OAuth 2.0 protected-resource
+    metadata, the latter naming an MCP server at https://tv.garten.co/mcp. No security.txt,
+    no OpenID Connect discovery, no api-catalog, no ai-plugin and no A2A agent card
+    were observed on any host. The corporate site (garten.co) is WordPress and returns
+    its 404 template for every well-known path; api.garten.co and client.garten.co
+    are one Spree/Solidus commerce application returning a themed 404; admin.garten.co
+    is a single-page app whose router answers HTTP 200 with HTML for every path probed
+    and is therefore recorded as a catch-all, not as documents found.'
+hosts:
+- host: https://tv.garten.co
+  note: garten TV — Uscreen-powered streaming property; the only host in the estate
+    with a real discovery surface
+  documents:
+  - {path: /.well-known/oauth-authorization-server, status: 200, content_type: application/json,
+     file: garten-tv-oauth-authorization-server.json}
+  - {path: /.well-known/oauth-protected-resource, status: 200, content_type: application/json,
+     file: garten-tv-oauth-protected-resource.json}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/security.txt, status: 406}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 406}
+  - {path: /.well-known/agent-card.json, status: 406}
+  - {path: /.well-known/agent.json, status: 406}
+- host: https://garten.co
+  note: WordPress corporate site; every well-known path returns the theme 404 template
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+  - {path: /openapi.json, status: 404}
+- host: https://www.garten.co
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://api.garten.co
+  note: Spree/Solidus commerce application (same app as client.garten.co); serves a
+    login page at the root and answers /api/v1 and /api/v2 with HTTP 401 `{"error":"You
+    must specify an API key."}`
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /openapi.json, status: 500}
+  - {path: /swagger.json, status: 500}
+  - {path: /v1/openapi.json, status: 404}
+- host: https://client.garten.co
+  note: garten client portal — same Spree/Solidus application as api.garten.co
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /openapi.json, status: 500}
+- host: https://experiences.garten.co
+  note: garten Experiences booking property
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://shop.garten.co
+  note: Shopify storefront, now decommissioned — every route answers `{"errors":"This
+    store is unavailable"}`. Its /llms.txt returns HTTP 200 text/markdown but the body
+    is Shopify's boilerplate "# Store Unavailable / Agent interaction is not possible
+    at this time", so it is recorded as a dead surface and no LLMsTxt pointer is wired
+    to it.
+  documents:
+  - {path: /llms.txt, status: 200, content_type: text/markdown, captured: false, reason: shopify-store-unavailable-boilerplate}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://help.garten.co
+  note: redirects (HTTP 301) toward the Zoho/Zendesk-hosted help desk; no discovery
+    surface of its own
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://admin.garten.co
+  note: internal admin tool on AWS Elastic Beanstalk; a single-page-app catch-all that
+    answers HTTP 200 with HTML for EVERY path probed, including /.well-known/agent-card.json.
+    Recorded as a false positive — no document was found here.
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, content_type: text/html, captured: false,
+     reason: spa-catch-all-html}
+  - {path: /.well-known/agent.json, status: 200, content_type: text/html, captured: false,
+     reason: spa-catch-all-html}
+  - {path: /.well-known/security.txt, status: 200, content_type: text/html, captured: false,
+     reason: spa-catch-all-html}
+unreachable_hosts:
+- community.garten.co
+- dev-community.garten.co
+- staging-community.garten.co
+- get.garten.co
+- basket.garten.co
+- intranet.garten.co
+- g2025.garten.co
+- noel.garten.co
+- admin-staging.garten.co
+x-evidence:
+  fetched: '2026-08-04'
+  tools: [curl, dig]
+  hosts_discovered_via: [dns, 'https://crt.sh/?q=%25.garten.co']

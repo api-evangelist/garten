@@ -1,18 +1,70 @@
 aid: garten
 name: Garten
-description: 'Garten is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'garten (styled lowercase; formerly Oh My Green) is a workplace food and
+  wellbeing company founded in 2014 by Michael Heinrich and backed by Y Combinator,
+  headquartered in the San Francisco Bay Area. It runs turn-key office micro-kitchens
+  and pantries (garten Kitchen), self-serve micro-markets with cashless checkout kiosks
+  (garten Market), corporate catering and cafe management (garten Catering), and virtual
+  and on-site wellbeing programming (garten Wellbeing, plus the garten TV streaming
+  property), serving employers including Google, Nike, Ford and Autodesk across roughly
+  twenty US metros. garten was acquired by the chef-driven catering platform HUNGRY
+  in 2025. garten publishes no public developer portal, API reference, SDK or machine-readable
+  REST contract: its client ordering surface at client.garten.co / api.garten.co is
+  a credentialed Spree/Solidus commerce application whose API rejects anonymous calls
+  with "You must specify an API key." The one genuinely public, machine-readable agent
+  surface sits on its Uscreen-powered streaming property garten TV (tv.garten.co),
+  which serves a Model Context Protocol server at /mcp guarded by a full OAuth 2.1
+  stack: RFC 9728 protected-resource metadata, RFC 8414 authorization-server metadata,
+  PKCE S256, RFC 7591 dynamic client registration, RFC 8707 resource indicators, and
+  seven named read/write scopes.'
 url: https://raw.githubusercontent.com/api-evangelist/garten/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
+x-harvest-source-url: https://forgeglobal.com/garten_stock/
 x-tier: stub
 x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-04'
 modified: '2026-08-04'
+image: https://garten.co/wp-content/uploads/2020/04/Garten-Logo-Navy-Tight.svg
 tags:
 - Company
-apis: []
+- Food Service
+- Corporate Wellness
+- Workplace
+- Catering
+- Employee Benefits
+- Micro Market
+- Facilities Management
+- Hospitality
+- Streaming Video
+- MCP
+apis:
+- name: garten TV MCP Server
+  description: 'A Model Context Protocol server published on garten''s own host at
+    https://tv.garten.co/mcp, serving the garten TV wellness-video property. The endpoint
+    is provided by the Uscreen streaming platform that powers garten TV (observed via
+    the powered-by-uscreen markup and the uscreen.io frame-ancestors CSP) but is served
+    under garten''s domain and advertises garten TV as the OAuth issuer. Anonymous
+    tools/list returns HTTP 401 with an RFC 9728 WWW-Authenticate challenge, so the
+    tool set and input schemas require authenticated introspection; the OAuth authorization-server
+    and protected-resource metadata are anonymous and were harvested verbatim.'
+  humanURL: https://tv.garten.co/
+  baseURL: https://tv.garten.co/mcp
+  tags:
+  - MCP
+  - Streaming Video
+  - Wellbeing
+  - OAuth
+  properties:
+  - type: MCPServer
+    url: mcp/garten-mcp.yml
+  - type: OAuthScopes
+    url: scopes/garten-scopes.yml
+  - type: Authentication
+    url: authentication/garten-authentication.yml
+  - type: WellKnown
+    url: well-known/garten-well-known.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +72,53 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
+  url: https://garten.co/
+- type: About
+  url: https://garten.co/about/
+- type: Blog
+  url: https://garten.co/blog/
+- type: BlogRSS
+  url: https://garten.co/feed/
+- type: Support
+  url: https://garten.co/contact/
+- type: HelpCenter
+  url: https://solutionsdesk.zendesk.com/hc/en-us
+- type: SignUp
+  url: https://garten.co/get-started/
+- type: Login
+  url: https://client.garten.co/login
+- type: TermsOfService
+  url: https://garten.co/terms-of-service/
+- type: PrivacyPolicy
+  url: https://garten.co/privacy-policy/
+- type: Careers
+  url: https://garten.co/careers/
+- type: Press
+  url: https://garten.co/press/
+- type: Partners
+  url: https://garten.co/become-partner/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/getgarten
+- type: Twitter
+  url: https://twitter.com/getgarten
+- type: SecondaryMarket
   url: https://forgeglobal.com/garten_stock/
+- type: MCPServer
+  url: mcp/garten-mcp.yml
+- type: WellKnown
+  url: well-known/garten-well-known.yml
+- type: Authentication
+  url: authentication/garten-authentication.yml
+- type: OAuthScopes
+  url: scopes/garten-scopes.yml
+- type: Conformance
+  url: conformance/garten-conformance.yml
+- type: DomainSecurity
+  url: security/garten-domain-security.yml
+- type: LLMsTxt
+  url: llms/garten-llms.txt
+x-enrichment:
+  date: '2026-08-04'
+  status: enriched
+  artifacts_added: 9
+  pass: local-v1

@@ -55,6 +55,11 @@ apis:
   - MCP
   - Streaming Video
   - Wellbeing
+  - Authentication
+  tags_raw:
+  - MCP
+  - Streaming Video
+  - Wellbeing
   - OAuth
   properties:
   - type: MCPServer

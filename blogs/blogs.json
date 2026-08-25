@@ -2,6 +2,20 @@
   "repo": "garten",
   "feeds": [
     {
+      "source": "https://garten.co/about/feed/",
+      "feed_url": "https://garten.co/about/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://garten.co/blog/feed/",
+      "feed_url": "https://garten.co/blog/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://garten.co/about/",
       "feed_url": "https://garten.co/about/feed/",
       "title": "",
@@ -12,10 +26,10 @@
       "source": "https://garten.co/blog/",
       "feed_url": "https://garten.co/blog/feed/",
       "title": "",
-      "saved": 10,
+      "saved": 0,
       "method": "discovered"
     }
   ],
   "post_count": 10,
-  "fetched": "2026-08-15T12:11:08Z"
+  "fetched": "2026-08-22T20:20:02Z"
 }
